@@ -1,0 +1,38 @@
+{% extends 'playground/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Дата создания</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in like_films %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.cost }}</td>
+            <td>{{ item.rent }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">Нет данных для отображения.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

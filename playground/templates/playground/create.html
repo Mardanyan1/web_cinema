@@ -1,0 +1,21 @@
+{% extends 'playground/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <h1>Create</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.name}}<br>
+            {{form.cost}}<br>
+            {{form.rent}}<br>
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+        <span> {{ error }}</span>
+    </div>
+</body>
+{% endblock %}

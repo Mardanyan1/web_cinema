@@ -1,0 +1,27 @@
+{% extends 'playground/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <h1>
+            Update {{ object }}
+        </h1>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                Are you sure you want to delete "{{ object }}"?
+            </p>
+            {{form.name}}<br>
+            {{form.cost}}<br>
+            {{form.rent}}<br>
+            <button type="submit" class="btn btn-success">Update</button>
+            <a href="{% url 'greetings' %}">Cancel</a>
+        </form>
+    </div>
+</body>
+  
+{% endblock %}
