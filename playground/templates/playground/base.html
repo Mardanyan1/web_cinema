@@ -17,7 +17,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
   
-        <div class="collapse show navbar-collapse" id="navbarsExample03"> <!--Можно убрать параметр collapse, и тогда меню в режиме телефона не будет сворачиваться-->
+        <div class="collapse show navbar-collapse" id="navbarsExample03">
           <ul class="navbar-nav me-auto mb-2 mb-sm-0">
             <li class="nav-item">
               <a class="nav-link {% if request.resolver_match.url_name == 'main page' %}active{% endif %}" href="{% url 'main page' %}">Главная страница</a>
@@ -28,16 +28,20 @@
             <li class="nav-item">
               <a class="nav-link {% if request.resolver_match.url_name == 'about us' %}active{% endif %}" href="{% url 'about us' %}">О нас</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match.url_name == 'create' %}active{% endif %}" href="{% url 'create' %}">Create</a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Аккаунт</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Вход</a></li>
-                <li><a class="dropdown-item" href="#">Регистрация</a></li>
-                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Администрация</a></li>
-                <li><a class="dropdown-item" href="#">Выход</a></li>
+                {% if user.is_authenticated %}
+                  <li><a class="dropdown-item" href="{% url 'login' %}">Здравствуйте, {{ user.username }}!</a></li>
+                {% else %}
+                  <li><a class="dropdown-item" href="{% url 'login' %}">Вход</a></li>
+                  <li><a class="dropdown-item" href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+                {% if request.user.is_superuser %}
+                  <li><a class="dropdown-item" href="{% url 'admin:index' %}">Администрация</a></li>
+                  <li><a class="dropdown-item" href="{% url 'create' %}">Обновление данных</a></li>
+                {% endif %}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
               </ul>
             </li>
           </ul>

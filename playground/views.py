@@ -1,12 +1,14 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from .forms import Like_filmsForm
-from .models import Like_films
+from .models import TEST_Like_films
+from django.contrib.auth.decorators import user_passes_test
+
 
 
 
 def test_text(request):
-    like_films = Like_films.objects.all()
+    like_films = TEST_Like_films.objects.all()
     return render(request, 'playground/exmple.html',  {'title':'ТЕСТОВАЯ', 'like_films':like_films})
 
 def say_hello(request):
@@ -14,14 +16,15 @@ def say_hello(request):
 
 
 def main_page(request):
-    like_films = Like_films.objects.all()
+    like_films = TEST_Like_films.objects.all()
     return render(request, 'playground/main_page.html', {'title':'Главная страница', 'like_films':like_films})
 
 
 def wir(request):
     return render(request, 'playground/about_us.html', {'title':'О нас'})
 
-
+@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def create(request):
     error = ''
     if request.method == 'POST':
@@ -39,9 +42,10 @@ def create(request):
     }
     return render(request, 'playground/create.html', context)
 
-
+@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def delete(request, id):
-    obj = get_object_or_404(Like_films, id=id)
+    obj = get_object_or_404(TEST_Like_films, id=id)
     if request.method == "POST" and request.POST.get("delete"):
         obj.delete()
         return redirect('greetings')
@@ -51,9 +55,10 @@ def delete(request, id):
     }
     return render(request, "playground/delete.html", context)
 
-
+@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def update(request, id):
-    like_films = get_object_or_404(Like_films, id=id)
+    like_films = get_object_or_404(TEST_Like_films, id=id)
     error = ''
     if request.method == 'POST':
         form = Like_filmsForm(request.POST, instance=like_films)

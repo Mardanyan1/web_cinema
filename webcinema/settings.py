@@ -141,5 +141,9 @@ if DEBUG:
 LOGIN_REDIRECT_URL = '/playground/hello/'
 LOGIN_URL = 'login'
 
+
+LOGOUT_REDIRECT_URL = '/playground/hello'
+
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

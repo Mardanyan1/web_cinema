@@ -6,24 +6,8 @@
 
 {% block content %}
 <body>
-    <div class="container">
-        <h1>Привет. Это главная страница!!! Сделана без html, тут только обычный текст</h1>
-        <h3> Name </h3>
-        {% if like_films %}
-            {% for el in like_films %}
-            <div class="alert alert-success mt-2">
-                <h4> 
-                    {{ el.name }}
-                    {{ el.cost }}
-                </h4>
-            </div>
-            {% endfor %}
-        {% else %}
-            <h4> 
-                Empty
-            </h4>
-        {% endif %}
-        
+    <h1>Привет. Это главная страница!!!</h1>
+    <div class="container d-flex flex-row flex-wrap justify-content-center">
         {% if like_films %}
             {% for el in like_films %}
             <div class="alert al mt-2">
@@ -42,39 +26,6 @@
                       <a href="{% url 'delete' el.id %}" class="card-link btn btn-danger">Удалить</a>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <h4> 
-                Empty
-            </h4>
-        {% endif %}
-
-        
-
-
-          <!-- <table>
-            <tr>
-              <th>Заголовок колонки 1</th>
-              <th>Заголовок колонки 2</th>
-            </tr>
-            <tr>
-              <td>Значение ячейки 1.1</td>
-              <td>Значение ячейки 1.2</td>
-            </tr>
-            <tr>
-              <td>Значение ячейки 2.1</td>
-              <td>Значение ячейки 2.2</td>
-            </tr>
-          </table> -->
-
-            <h3> Cost </h3>
-        {% if like_films %}
-            {% for el in like_films %}
-            <div class="alert alert-success mt-2">
-                <h4> 
-                    {{ el.cost }}
-                </h4>
             </div>
             {% endfor %}
         {% else %}

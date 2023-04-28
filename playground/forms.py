@@ -1,9 +1,9 @@
-from .models import Like_films
+from .models import TEST_Like_films
 from django.forms import ModelForm, TextInput, NumberInput
 
 class Like_filmsForm(ModelForm):
     class Meta:
-        model = Like_films
+        model = TEST_Like_films
         fields = ["name","cost","rent"]
         widgets = {
             "name":TextInput(attrs={
