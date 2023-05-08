@@ -1,0 +1,36 @@
+{
+    "purchaseOptions": {
+        "contentPurchaseOptions": {
+            "purchases": [],
+            "price_ranges": {
+                "price": {
+                    "min": "129",
+                    "max": "599"
+                },
+                "user_price": {
+                    "min": "1",
+                    "max": "599"
+                },
+                "discount_on_cheapest_price": 99.9,
+                "currency": "RUB",
+                "currency_symbol": "\u20bd"
+            },
+            "purchase_options": [
+                {
+                    "object_id": 145156,
+                    "object_type": "content",
+                    "object_title": " 2",
+                    "object_child_ids": [],
+                    "ownership_type": "eternal",
+                    "bonus_info": "",
+                    "payment_options": [
+                        {
+                            "ps_key": "cards",
+                            "ps_method": "card"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
