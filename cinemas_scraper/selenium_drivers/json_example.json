@@ -1,0 +1,34 @@
+{
+    "film_name": {
+        "contentPurchaseOptions": {
+            "purchases": [],
+            "price_ranges": {
+                "price": {
+                    "min": "0",
+                    "max": "699"
+                },
+                "user_price": {
+                    "min": "0",
+                    "max": "699"
+                },
+                "discount_on_cheapest_price": null,
+                "currency": "RUB",
+                "currency_symbol": "\u20bd"
+            }
+        }
+    }
+}
+
+
+{
+    "film_num_#1": [
+        {
+            "film_name": 'Париж подождет',
+            "film_link": 'https: //www.ivi.ru/watch/155935',
+            "prices": [
+                "min": "129",
+                "max": "599"
+            ]
+        }
+    ]
+}
