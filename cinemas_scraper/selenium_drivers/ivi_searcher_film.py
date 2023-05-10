@@ -5,6 +5,33 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import time
 
+# [
+#     {'Париж подождет': 'https://www.ivi.ru/watch/155935', 'Париж, вино и романтика': 'https://www.i',
+#      'Париж: Город мёртвых': 'https://www.ivi.ru/watch/121559', 'Трамвай в Париж': 'https://www.ivtch/2750'
+#      }, 
+#     {'Блэк': 'https://www.ivi.ru/watch/blek', 'Темный мир: Равновесие': 'https://www.iviзеркало': 'https://www.ivi.ru/watch/224254', 
+#      'Темные воды': 'https://www.ivi.ru/watch/348930', '//www.ivi.ru/watch/137606', 'Темное наследие': 'https://www.ivi.ru/watch/424055', 
+#      'Темные тайны': 'https://www.ivi.ru/watch/102427', 'Темные дороги': 'https://www.ivi.ru/watch/205375', 
+#      '[4k] Трансформеры 3: Тёмная сtps://www.ivi.ru/watch/172253', 'Врата Аграмона': 'https://www.ivi.ru/watch/462884', 
+#      'Девятые врs://www.ivi.ru/watch/452776', 'Лев Яшин. Вратарь моей мечты': 'https://www.ivi.ru/watch/185741'
+#      }
+# ]
+
+# попробуй через цикл пропарсить каждый фильм. Парсинг по сути готов, тебе просто нужно вместо url поставить нужные значения, 
+# а потом в виде json вложить в старый список по типу:
+# "film_num_#1": [{
+#                     "film_name": 'Париж подождет',
+#                     "film_link": 'https://www.ivi.ru/watch/155935',
+#                     "prices": {
+#                         "min": "129",
+#                         "max": "599"
+#                     }
+#                   }]
+# from cinemas_scraper.selenium_drivers.thread_search import parse_site
+
+# a = parse_site()
+
+
 t0 = time.time()
 ua = UserAgent()
 headers = {'accept': '*/*', 'user-agent': ua.chrome}
@@ -40,10 +67,8 @@ soup = BeautifulSoup(html, 'html.parser')
 
 # Ищем нужные данные на странице
 film_name_elem = soup.find_all('span', class_='nbl-slimPosterBlock__titleText')
-
-# links = soup.find_all('a', class_='nbl-slimPosterBlock_available').get("href")
-
 links_elems = soup.find_all('a', class_='nbl-slimPosterBlock_available')
+
 links = []
 for elem in links_elems:
     links.append(elem.get("href"))
