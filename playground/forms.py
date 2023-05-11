@@ -1,3 +1,4 @@
+from django import forms
 from .models import TEST_Like_films
 from django.forms import ModelForm, TextInput, NumberInput
 
@@ -19,3 +20,6 @@ class Like_filmsForm(ModelForm):
             'placeholder':'Введи rent'
             })
         }
+
+class InputForm(forms.Form):
+    my_input = forms.CharField(label='my_input', max_length=100)

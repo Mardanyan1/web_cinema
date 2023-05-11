@@ -17,10 +17,11 @@ class Cinemas(models.Model):
     photo = models.ImageField(null=True)
 
 class Films(models.Model):
-    name = models.TextField(null=True)
-    description = models.TextField(null=True)
+    name = models.CharField(max_length=70, null=True)
+    link = models.URLField(null=True)
+    # description = models.TextField(null=True)
     id_film = models.IntegerField(primary_key=True)
-    photo = models.ImageField(null=True)
+    photo = models.URLField(null=True)
 
 class Films_cost(models.Model):
     purchase = models.DecimalField(max_digits=19, decimal_places=4, null=True)

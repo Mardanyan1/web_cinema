@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import Like_filmsForm
+
+from thread_search import threading_search
+from .forms import InputForm, Like_filmsForm
 from .models import TEST_Like_films
 from django.contrib.auth.decorators import user_passes_test
 
@@ -23,6 +25,7 @@ def main_page(request):
 def wir(request):
     return render(request, 'playground/about_us.html', {'title':'О нас'})
 
+#поле создания новых данных, которое доступен только авторизированным пользователям с ролью superuser(admin)
 @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def create(request):
@@ -42,6 +45,7 @@ def create(request):
     }
     return render(request, 'playground/create.html', context)
 
+#поле удаления данных, которое доступен только авторизированным пользователям с ролью superuser(admin)
 @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def delete(request, id):
@@ -55,6 +59,8 @@ def delete(request, id):
     }
     return render(request, "playground/delete.html", context)
 
+
+#поле обновления данных, которое доступен только авторизированным пользователям с ролью superuser(admin)
 @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def update(request, id):
@@ -73,3 +79,47 @@ def update(request, id):
         'title':'Update'
     }
     return render(request, 'playground/update.html', context)
+
+
+
+
+# def process_input(request):
+#     if request.method == 'POST':
+#         form = InputForm(request.POST)
+#         if form.is_valid():
+#             input_text = form.cleaned_data['my_input']
+#             i=0
+#             while i<10:
+#                 i = i+1
+#                 print(input_text)
+#             # Выполняйте необходимые операции с полученным значением input_text
+#             # Например, сохраните его в базу данных или обработайте как требуется
+            
+#             return render(request, 'result.html', {'input_text': input_text})
+#     else:
+#         form = InputForm()
+    
+#     return render(request, 'myform.html', {'form': form})
+
+
+def search_movie(request):
+    if request.method == 'POST':
+        film_search_name = request.POST.get('film_search_name')  # Получаем текст из поля ввода с именем 'film_search_name'
+        
+        # Передаем полученное название фильма в функцию для парсинга
+        movie_data = threading_search(film_search_name)
+        
+        # Создаем новую запись в базе данных с полученными данными
+        movie = Movie(
+            title=movie_data['title'],
+            director=movie_data['director'],
+            release_date=movie_data['release_date'],
+            # Другие поля фильма...
+        )
+        movie.save()
+        
+        # Возвращаем пользователю страницу с результатами
+        return render(request, 'movie_results.html', {'movie': movie})
+    
+    # Если запрос не является POST-запросом, отображаем пустую форму
+    return render(request, 'search_movie.html')

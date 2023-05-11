@@ -46,7 +46,10 @@
             </li>
           </ul>
           <form role="search">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="form-control" type="search" placeholder="Search" label="my_input" name="film_search_name"/>
+            <!-- <input class="form-control" type="Submit" placeholder="Search" aria-label="Search"> -->
           </form>
         </div>
       </div>
