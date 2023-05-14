@@ -1,0 +1,26 @@
+[0514/041835.813:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.814:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.815:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041835.816:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.820:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.821:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041835.945:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.945:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.946:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.946:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041835.947:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.948:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041835.960:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.960:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
+[0514/041835.963:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.963:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041835.964:ERROR:disk_cache.cc(205)] Unable to create cache
+[0514/041835.965:ERROR:gpu_disk_cache.cc(673)] Gpu Cache Creation failed: -2
+[0514/041842.335:INFO:CONSOLE(1)] "Generated current parameters object [object Object]", source: https://gambit-parent.dfs.ivi.ru/static/23.05.05/scripts/frontLogger.js?ver=cf0626f8e6bd38ae00999bc68817ed9b (1)
+[0514/041842.336:INFO:CONSOLE(1)] "Generated OneLink parameters &af_js_web=true&af_ss_ver=2_2_0&pid=none_source&c=none_campaign&af_channel=none_medium&af_sub1=none_term&af_sub2=none_content&af_ss_ui=true&af_ss_gtm_ui=true", source: https://gambit-parent.dfs.ivi.ru/static/23.05.05/scripts/frontLogger.js?ver=cf0626f8e6bd38ae00999bc68817ed9b (1)
+[0514/041842.337:INFO:CONSOLE(1)] "Generated OneLink URL https://ivi.onelink.me/Z1xq?af_js_web=true&af_ss_ver=2_2_0&pid=none_source&c=none_campaign&af_channel=none_medium&af_sub1=none_term&af_sub2=none_content&af_ss_ui=true&af_ss_gtm_ui=true", source: https://gambit-parent.dfs.ivi.ru/static/23.05.05/scripts/frontLogger.js?ver=cf0626f8e6bd38ae00999bc68817ed9b (1)
+[0514/041842.592:INFO:CONSOLE(0)] "[.WebGL-0000602803B4C000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: https://www.ivi.ru/search/?ivi_search=%D0%BE%D0%BD (0)
+[0514/041920.875:ERROR:cert_issuer_source_aia.cc(34)] Error parsing cert retrieved from AIA (as DER):
+ERROR: Couldn't read tbsCertificate as SEQUENCE
+ERROR: Failed parsing Certificate
+

@@ -19,16 +19,3 @@
     }
 }
 
-
-{
-    "film_num_#1": [
-        {
-            "film_name": 'Париж подождет',
-            "film_link": 'https: //www.ivi.ru/watch/155935',
-            "prices": [
-                "min": "129",
-                "max": "599"
-            ]
-        }
-    ]
-}
