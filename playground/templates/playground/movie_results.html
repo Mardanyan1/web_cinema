@@ -1,0 +1,60 @@
+{% extends 'playground/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        Добрый вечер, дамы
+        <h2>Список фильмов</h2>
+        <ul class="list-group">
+        {% for film in movie_data %}
+            <li class="list-group-item">
+                <h3>{{ film.film_name }}</h3>
+                <p>Ссылка: <a href="{{ film.link }}">{{ film.link }}</a></p>
+                <ul class="list-group">
+                {% for key, value in film.items %}
+                    {% if key != 'film_name' and key != 'link' %}
+                        <li class="list-group-item">
+                            <p>Метод просмотра: {{ value.viewing_method }}</p>
+                            <p>Качество: {{ value.quality }}</p>
+                            <p>Цена: {{ value.price }}</p>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+        <!-- <div class="container">
+            <h1>{{ title }}</h1>
+            <div class="row">
+              {% for movies in movie_data %}
+                {% for movie in movies %}
+                  <div class="col-md-4 mb-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ movie.film_name }}</h5>
+                        <p class="card-text">Ссылка: <a href="{{ movie.link }}">{{ movie.link }}</a></p>
+                        <ul class="list-group">
+                          {% for key, value in movie.items %}
+                            {% if key != 'film_name' and key != 'link' %}
+                              <li class="list-group-item">Способ просмотра: {{ value.viewing_method }}</li>
+                              <li class="list-group-item">Качество: {{ value.quality }}</li>
+                              <li class="list-group-item">Цена: {{ value.price }}</li>
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          </div> -->
+    </div>
+</body>
+  
+{% endblock %}
