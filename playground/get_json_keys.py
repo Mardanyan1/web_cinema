@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 import json
 
 
-
-
 # [
 #     {'Париж подождет': 'https://www.ivi.ru/watch/155935', 'Париж, вино и романтика': 'https://www.i',
 #      'Париж: Город мёртвых': 'https://www.ivi.ru/watch/121559', 'Трамвай в Париж': 'https://www.ivtch/2750'
@@ -34,6 +32,7 @@ import json
 
 
 def get_data_keys(json_obj):
+    all_films_data = []
     for key, value in json_obj.items():
         film_name = key
         link = value
@@ -50,7 +49,7 @@ def get_data_keys(json_obj):
 
         # response = requests.get('https://www.ivi.ru/watch/486832')
 
-        response = requests.get(link)#Мир юрского периода 2 - покупка (мб подписка)
+        response = requests.get(link)
         #---------------------------------------------------------------------------------------------------------------
 
 
@@ -71,14 +70,8 @@ def get_data_keys(json_obj):
             if script.string is not None and 'window.__INITIAL_STATE__ =' in script.string:
                 json_str = script.string.split('window.__INITIAL_STATE__ =')[1].strip()
                 data = json.loads(json_str)
+        #удаляем файл, чтобы не было мусора
         os.remove(filename)
-        #         with open('script_parsing.json', 'w', encoding='utf-8') as f:
-        #             json.dump(script_parsing, f)
-
-        # #ТЕСТ. проверяю для себя сохранилось ли
-        # with open('script_parsing.json', 'r', encoding='utf-8') as f:
-        #     #print(f.read())
-        #     data = json.load(f)
         #----------------------------------------------------------------------------------------------------------------
 
 
@@ -93,21 +86,34 @@ def get_data_keys(json_obj):
         print("-----------------------------------------")
 
         #перебор всех выбранных ниже наддын по ссылке film_data_json_link
+        parse_data_result = {
+            'film_name': film_name,
+            'link': link
+        }
+        i = 0
         for item in film_data_json_link:
             #это условие проверяет - бесплатный ли фильм
             if element:
                 isFree = True
-                sub_cost = "0"
+                downloadable = "Бесплатно"
+                price = "0"
+                quality = "HD"
                 print('Бесплатно ')
+                parse_data_result[str(i)] = {
+                    'viewing_method':downloadable,
+                    'quality':quality,
+                    'price':price
+                }
+                i=i+1
                 break
 
             #это условие убирает пункт по типу "подписка на фильмы WB". Можно использовать для скидок и различных условий
             if item["object_type"] == 'collection':
                 continue
-
             #это условие убирает цену 0, так как она мне не нужна   
             if item["price"] == '0':
                 continue
+
             price = item['price']
             object_title = item['object_title']#название фильма
             quality = item['quality'] # качество
@@ -115,18 +121,37 @@ def get_data_keys(json_obj):
             #пишем в тег, что это подписка
             if item["object_type"] == 'subscription':
                 downloadable = 'Подписка'
+                quality = 'HD'
                 print(price,quality, downloadable)
+                parse_data_result[str(i)] = {
+                    'viewing_method':downloadable,
+                    'quality':quality,
+                    'price':price
+                }
+                i=i+1
                 continue
 
             downloadable = item['downloadable']# Подписка, Покупка или Аренда
-
             if downloadable is True:
                 downloadable='Поукпка'
             else:
                 downloadable = 'Аренда'
+
             print(price,quality, downloadable)
-        print(film_name)
-        print("-----------------------------------------")
+
+            parse_data_result[str(i)] = {
+                'viewing_method':downloadable,
+                'quality':quality,
+                'price':price
+            }
+            i=i+1
+        all_films_data.append(parse_data_result)
+    return all_films_data
+    print("-------------------------------------SIIIIIIIIIIIII-----------------")
+    print(parse_data_result)
+        
+        # print("-----------------------------------------")
+        
         #ищешь по product_title, "downloadable": true - значит купить, "downloadable": false - значит аренда, "quality": качество
         #-------------------------------------------------------------------------------------------------------------------
 
@@ -136,9 +161,11 @@ def threading_get_json_keys(linksFilmsAllCinema):
     #начинаем потоковый парсинг каждой страницы
     for json_obj in json_list:
         with ThreadPoolExecutor(max_workers=10) as executor:#max_workers - количество потоков
-            linksFilmsAllCinema = executor.map(get_data_keys, [json_obj for json_obj in json_list])
-
-
-
-
-
+            linksFilmsAllCinema = executor.map(get_data_keys, [json_obj])
+            linksFilmsAllCinema = list(linksFilmsAllCinema)
+            linksFilmsAllCinema = json.dumps(linksFilmsAllCinema)
+            linksFilmsAllCinema = json.loads(linksFilmsAllCinema)
+            linksFilmsAllCinema = linksFilmsAllCinema[0]
+            print(type(linksFilmsAllCinema))
+    print(linksFilmsAllCinema)
+    return linksFilmsAllCinema
