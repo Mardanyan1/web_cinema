@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 
-from thread_search import threading_search
+from .thread_search import threading_search
 from .forms import InputForm, Like_filmsForm
-from .models import TEST_Like_films
+from .models import TEST_Like_films, Films
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -103,23 +103,33 @@ def update(request, id):
 
 
 def search_movie(request):
-    if request.method == 'POST':
-        film_search_name = request.POST.get('film_search_name')  # Получаем текст из поля ввода с именем 'film_search_name'
-        
+    if request.method == 'GET':
+        film_search_name = request.GET.get('film_search_name')  # Получаем текст из поля ввода с именем 'film_search_name'
+        # parse_data_result = {
+        #     'film_name': film_search_name,
+        #     'link': 'https://link',#тест
+        #     '1':{
+        #         'viewing_method':'Покупка',
+        #         'quality':'HD',
+        #         'price':'129'
+        #         }
+        # }
         # Передаем полученное название фильма в функцию для парсинга
         movie_data = threading_search(film_search_name)
         
-        # Создаем новую запись в базе данных с полученными данными
-        movie = Movie(
-            title=movie_data['title'],
-            director=movie_data['director'],
-            release_date=movie_data['release_date'],
-            # Другие поля фильма...
-        )
-        movie.save()
+        # # Создаем новую запись в базе данных с полученными данными
+        # movie = Films(
+        #     film_name = movie_data[''],
+        #     title=movie_data['title'],
+        #     director=movie_data['director'],
+        #     release_date=movie_data['release_date'],
+        #     # Другие поля фильма...
+        # )
+        # movie.save()
         
         # Возвращаем пользователю страницу с результатами
-        return render(request, 'movie_results.html', {'movie': movie})
+        return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_data})
+        # return render(request, 'movie_results.html', {'movie': movie})
     
     # Если запрос не является POST-запросом, отображаем пустую форму
-    return render(request, 'search_movie.html')
+    return render(request, 'playground/hello.html')
