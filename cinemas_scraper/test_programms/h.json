@@ -1,0 +1,24 @@
+{
+    "result": [
+        {
+            "year": 2022,
+            "thumbs": [
+                {
+                    "height": 480,
+                    "url": "https://thumbs.dfs.ivi.ru/storage33/contents/1/c/f01ad8a5d4ec507d04374af8a287a0.jpg",
+                    "id": 19944387,
+                    "content_format": "Thumb-640x480",
+                    "width": 640,
+                    "dominant_color": "#473D45"
+                }
+            ],
+            "background": null,
+            "wow_point_time": 417,
+            "available_to_buy_on_mobile": true,
+            "sharing_disabled": true,
+            "best_watch_before": "2025-02-20",
+            "other_versions": [],
+            "id": 498374
+        }
+    ]
+}

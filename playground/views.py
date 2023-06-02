@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -83,53 +84,32 @@ def update(request, id):
 
 
 
-# def process_input(request):
-#     if request.method == 'POST':
-#         form = InputForm(request.POST)
-#         if form.is_valid():
-#             input_text = form.cleaned_data['my_input']
-#             i=0
-#             while i<10:
-#                 i = i+1
-#                 print(input_text)
-#             # Выполняйте необходимые операции с полученным значением input_text
-#             # Например, сохраните его в базу данных или обработайте как требуется
-            
-#             return render(request, 'result.html', {'input_text': input_text})
-#     else:
-#         form = InputForm()
-    
-#     return render(request, 'myform.html', {'form': form})
-
 
 def search_movie(request):
     if request.method == 'GET':
+        t1 = time.time()
         film_search_name = request.GET.get('film_search_name')  # Получаем текст из поля ввода с именем 'film_search_name'
-        # parse_data_result = {
-        #     'film_name': film_search_name,
-        #     'link': 'https://link',#тест
-        #     '1':{
-        #         'viewing_method':'Покупка',
-        #         'quality':'HD',
-        #         'price':'129'
-        #         }
-        # }
+        
         # Передаем полученное название фильма в функцию для парсинга
-        movie_data = threading_search(film_search_name)
-        
-        # # Создаем новую запись в базе данных с полученными данными
-        # movie = Films(
-        #     film_name = movie_data[''],
-        #     title=movie_data['title'],
-        #     director=movie_data['director'],
-        #     release_date=movie_data['release_date'],
-        #     # Другие поля фильма...
-        # )
-        # movie.save()
-        
+        movie_list = threading_search(film_search_name)
+        t0 = time.time()
+        print(t0-t1)#тест времени
+        for movie_data in movie_list:
+            film_name = movie_data['film_name']
+            year = movie_data['year']
+            photo = movie_data['image']
+            # Проверка, существует ли уже фильм с похожими параметрами
+            existing_movie = Films.objects.filter(film_name=film_name, year=year).first()
+
+            if existing_movie:
+                # Фильм уже существует, пропускаем его сохранение
+                continue
+            # Создание экземпляра модели Films
+            movie = Films(film_name=film_name, year=year, photo=photo)
+            # movie = Films(year=year)
+            movie.save()
         # Возвращаем пользователю страницу с результатами
-        return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_data})
-        # return render(request, 'movie_results.html', {'movie': movie})
+        return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_list})
     
-    # Если запрос не является POST-запросом, отображаем пустую форму
+    # Если запрос не является GET-запросом, отображаем пустую форму
     return render(request, 'playground/hello.html')

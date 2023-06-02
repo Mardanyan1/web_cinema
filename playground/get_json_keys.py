@@ -1,68 +1,31 @@
 from concurrent.futures import ThreadPoolExecutor
 import os
+import time
 import uuid
 import requests
 from bs4 import BeautifulSoup
 import json
+from random import randint
 
 
-# [
-#     {'Париж подождет': 'https://www.ivi.ru/watch/155935', 'Париж, вино и романтика': 'https://www.i',
-#      'Париж: Город мёртвых': 'https://www.ivi.ru/watch/121559', 'Трамвай в Париж': 'https://www.ivtch/2750'
-#      }, 
-#     {'Блэк': 'https://www.ivi.ru/watch/blek', 'Темный мир: Равновесие': 'https://www.iviзеркало': 'https://www.ivi.ru/watch/224254', 
-#      'Темные воды': 'https://www.ivi.ru/watch/348930', '//www.ivi.ru/watch/137606', 'Темное наследие': 'https://www.ivi.ru/watch/424055', 
-#      'Темные тайны': 'https://www.ivi.ru/watch/102427', 'Темные дороги': 'https://www.ivi.ru/watch/205375', 
-#      '[4k] Трансформеры 3: Тёмная сtps://www.ivi.ru/watch/172253', 'Врата Аграмона': 'https://www.ivi.ru/watch/462884', 
-#      'Лев Яшин. Вратарь моей мечты': 'https://www.ivi.ru/watch/185741'
-#      }
-# ]
-
-# попробуй через цикл пропарсить каждый фильм. Парсинг по сути готов, тебе просто нужно вместо url поставить нужные значения, 
-# а потом в виде json вложить в старый список по типу:
-# "film_num_#1": [{
-#                     "film_name": 'Париж подождет',
-#                     "film_link": 'https://www.ivi.ru/watch/155935',
-#                     "prices": [
-#                         "min": "129",
-#                         "max": "599"
-#                     ]
-#                   }]
-
-
-
-def get_data_keys(json_obj):
+def get_IVI_data_keys(json_obj):
     all_films_data = []
     for key, value in json_obj.items():
-        film_name = key
-        link = value
-        #------------------------------------------ТЕСТОВЫЕ ССЫЛКИ------------------------------------------------------
-
-        # response = requests.get('https://www.ivi.ru/watch/98531') #Анаболики - покупка (мб подписка)
-
-        # response = requests.get('https://www.ivi.ru/watch/horoshij-doktor')# Хороший доктор - подписка (почему то пишет данные сериала "Хороший доктор")
-
-        # response = requests.get('https://www.ivi.ru/watch/109726') # 1+1 - подписка (почему то пишет данные сериала "Хороший доктор") 
-                                                                    #!!!!!! короче, просто берем название из парсера поисковика сайта - так легче будет
-
-        # response = requests.get('https://www.ivi.ru/watch/216926') #Джентельмены - покупка
-
-        # response = requests.get('https://www.ivi.ru/watch/486832')
-
+        link = key
+        year = json_obj[key]['year']
+        image = json_obj[key]['image']
+        film_name = json_obj[key]['film_name']
+        time.sleep(randint(5,7))
         response = requests.get(link)
-        #---------------------------------------------------------------------------------------------------------------
-
 
         #-----------------------------------------------Поиск json-файла------------------------------------------------
         #создаем файл example, куда будем записывать весь html файл
         filename = str(uuid.uuid4()) + ".html"
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(response.text)
-
         #передаем html файл в переменную в виде текста
         with open(filename, 'r', encoding='utf-8') as f:
             html_parsing = f.read()
-
         #не углублялся, но этот кусок находит нужную мне часть кода и и сохраняет его отдельны json файлом
         soup = BeautifulSoup(html_parsing, 'html.parser')
         scripts = soup.find_all('script')
@@ -70,6 +33,8 @@ def get_data_keys(json_obj):
             if script.string is not None and 'window.__INITIAL_STATE__ =' in script.string:
                 json_str = script.string.split('window.__INITIAL_STATE__ =')[1].strip()
                 data = json.loads(json_str)
+        with open('data.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
         #удаляем файл, чтобы не было мусора
         os.remove(filename)
         #----------------------------------------------------------------------------------------------------------------
@@ -80,18 +45,19 @@ def get_data_keys(json_obj):
         #проверка на бесплатность проекта
         element = soup.find('div', {'class': 'nbl-textBadge_style_resh'})
 
-
-
         film_data_json_link = data['pages']['watchPage']['purchaseOptions']['contentPurchaseOptions']['purchase_options']
         print("-----------------------------------------")
 
         #перебор всех выбранных ниже наддын по ссылке film_data_json_link
         parse_data_result = {
+            'cinema': 'ivi',
             'film_name': film_name,
-            'link': link
+            'link': link, 
+            'image': image,
+            'year': year
         }
         i = 0
-        for item in film_data_json_link:
+        for item in film_data_json_link:#перебор всех возможных способов приобретения фильма
             #это условие проверяет - бесплатный ли фильм
             if element:
                 isFree = True
@@ -99,7 +65,7 @@ def get_data_keys(json_obj):
                 price = "0"
                 quality = "HD"
                 print('Бесплатно ')
-                parse_data_result[str(i)] = {
+                parse_data_result[int(i)] = {
                     'viewing_method':downloadable,
                     'quality':quality,
                     'price':price
@@ -123,7 +89,7 @@ def get_data_keys(json_obj):
                 downloadable = 'Подписка'
                 quality = 'HD'
                 print(price,quality, downloadable)
-                parse_data_result[str(i)] = {
+                parse_data_result[int(i)] = {
                     'viewing_method':downloadable,
                     'quality':quality,
                     'price':price
@@ -133,39 +99,122 @@ def get_data_keys(json_obj):
 
             downloadable = item['downloadable']# Подписка, Покупка или Аренда
             if downloadable is True:
-                downloadable='Поукпка'
+                downloadable='Покупка'
             else:
                 downloadable = 'Аренда'
 
             print(price,quality, downloadable)
 
-            parse_data_result[str(i)] = {
+            parse_data_result[int(i)] = {
                 'viewing_method':downloadable,
                 'quality':quality,
                 'price':price
             }
             i=i+1
         all_films_data.append(parse_data_result)
-    return all_films_data
-    print("-------------------------------------SIIIIIIIIIIIII-----------------")
-    print(parse_data_result)
-        
-        # print("-----------------------------------------")
-        
+    return all_films_data        
         #ищешь по product_title, "downloadable": true - значит купить, "downloadable": false - значит аренда, "quality": качество
         #-------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def cinemas(json_obj):
+    all_films_data = []
+    for key in json_obj.keys():
+        if 'ivi' in key:           
+            # Ищем нужные данные на странице ivi
+            all_films_data += get_IVI_data_keys(json_obj)
+            return all_films_data
+        elif 'more.tv' in key:
+            # all_films_data += json_obj
+            temple = []
+            for keys, value in json_obj.items():
+                link = keys
+                # Обращение к элементам внутреннего словаря
+                # for inner_key, inner_value in value.items():
+                year = value['year']
+                image = value['image']
+                film_name = value['film_name']
+                viewing_method = value['viewing_method']
+                quality = value['quality']
+                price = value['price']
+                parse_data_result = {
+                    'cinema': 'more',
+                    'film_name': film_name,
+                    'link': link, 
+                    'image': image,
+                    'year': year,
+                    0:{
+                        'cinema': 'more',
+                        'viewing_method':viewing_method,
+                        'quality':quality,
+                        'price':price
+                    }
+                }            
+                all_films_data.append(parse_data_result)
+            return all_films_data
+        else:
+            
+            return all_films_data
+
+        # elif 'more' in url:
+
+
+
+# def get_MORE_data_keys(json_obj):
+#     for key, value in json_obj.items():
+#         response = requests.get(link)
+#         filename = str(uuid.uuid4()) + ".html"
+#         with open(filename, 'w', encoding='utf-8') as f:
+#             f.write(response.text)
+
+#         #передаем html файл в переменную в виде текста
+#         with open(filename, 'r', encoding='utf-8') as f:
+#             html_parsing = f.read()
+
+#         parse_data_result = {
+#             'film_name': film_name,
+#             'link': link
+#         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def threading_get_json_keys(linksFilmsAllCinema):
     json_list = json.loads(linksFilmsAllCinema)
+    final_list = []
     #начинаем потоковый парсинг каждой страницы
     for json_obj in json_list:
         with ThreadPoolExecutor(max_workers=10) as executor:#max_workers - количество потоков
-            linksFilmsAllCinema = executor.map(get_data_keys, [json_obj])
+            linksFilmsAllCinema = executor.map(cinemas, [json_obj])
             linksFilmsAllCinema = list(linksFilmsAllCinema)
+            if json_obj == {}:
+                continue
             linksFilmsAllCinema = json.dumps(linksFilmsAllCinema)
             linksFilmsAllCinema = json.loads(linksFilmsAllCinema)
             linksFilmsAllCinema = linksFilmsAllCinema[0]
-            print(type(linksFilmsAllCinema))
-    print(linksFilmsAllCinema)
-    return linksFilmsAllCinema
+            final_list = final_list + linksFilmsAllCinema
+            print("-----------------------------------------")
+    print(final_list)
+    return final_list

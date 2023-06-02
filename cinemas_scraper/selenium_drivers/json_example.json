@@ -1,21 +1,22 @@
-{
-    "film_name": {
-        "contentPurchaseOptions": {
-            "purchases": [],
-            "price_ranges": {
-                "price": {
-                    "min": "0",
-                    "max": "699"
-                },
-                "user_price": {
-                    "min": "0",
-                    "max": "699"
-                },
-                "discount_on_cheapest_price": null,
-                "currency": "RUB",
-                "currency_symbol": "\u20bd"
-            }
+[
+    {
+        "https://www.ivi.ru/watch/155935": {
+            "image": "https://thumbs.dfs.ivi.ru/storage23/contents/2/4/f98019a4643881cbe7837dbdd0a690.jpg/234x360/?q=85",
+            "year": "2017",
+            "film_name": "\\u041f\\u0430\\u0440\\u0438\\u0436 \\u043f\\u043e\\u0434\\u043e\\u0436\\u0434\\u0435\\u0442",
+            "viewing_method": "none",
+            "price": "none",
+            "quality": "none"
+        }
+    },
+    {
+        "https://more.tv/chudesa_v_parizhe": {
+            "image": "https://static.more.tv/jackal/2585917/04f7eae8-f027-4224-88f1-85c47431f416_W250_H355.jpg",
+            "year": "2016",
+            "film_name": "\\u0427\\u0443\\u0434\\u0435\\u0441\\u0430 \\u0432 \\u041f\\u0430\\u0440\\u0438\\u0436\\u0435",
+            "viewing_method": "\\u0411\\u0435\\u0441\\u043f\\u043b\\u0430\\u0442\\u043d\\u043e",
+            "price": "0",
+            "quality": "HD"
         }
     }
-}
-
+]
