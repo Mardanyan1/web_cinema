@@ -54,12 +54,13 @@
             <img src="{{ film.image }}" alt="{{ film.film_name }}" class="img-fluid">
           </div>
           <div class="col-md-8">
-            <h3>{{ film.film_name }} - {{ film.year }}</h3>
-            <p>Ссылка: <a href="{{ film.link }}">{{ film.link }}</a></p>
+            <h3>{{ film.film_name }} 
+              <!-- - {{ film.year }} -->
+            </h3>
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Онлайн кинотеатр</th>
+                  <th scope="col">Ссылка</th>
                   <th scope="col">Цена</th>
                   <th scope="col">Способ приобретения</th>
                   <th scope="col">Качество</th>
@@ -67,10 +68,11 @@
               </thead>
               <tbody>
                 {% for key, value in film.items %}
-                {% if key != 'film_name' and key != 'link' and key != 'cinema' and key != 'year' and key != 'image' %} <!--пропустить значения с этими ключами -->
+                {% if key != 'film_name' and key != 'link' and key != 'cinema' and key != 'year' and key != 'image' %} 
                 <tr>
-                  <td>{{ value.viewing_method }}</td>
+                  <td><a href="{{ value.link }}">{{ value.cinema }}</a></td>
                   <td>{{ value.price }}</td>
+                  <td>{{ value.viewing_method }}</td>
                   <td>{{ value.quality }}</td>
                 </tr>
                 {% endif %}
@@ -82,6 +84,48 @@
       </li>
       {% endfor %}
     </ul>
+    <!-- <ul class="list-group">
+      {% for film in movie_data %}
+        {% if forloop.first or film.film_name != movie_data.0.film_name %}
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="{{ film.image }}" alt="{{ film.film_name }}" class="img-fluid">
+              </div>
+              <div class="col-md-8">
+                <h3>{{ film.film_name }} - {{ film.year }}</h3>
+                <p>Ссылка: <a href="{{ film.link }}">{{ film.link }}</a></p>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Онлайн кинотеатр</th>
+                      <th scope="col">Цена</th>
+                      <th scope="col">Способ приобретения</th>
+                      <th scope="col">Качество</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+        {% endif %}
+                    {% for key, value in film.items %}
+                      {% if key != 'film_name' and key != 'link' and key != 'cinema' and key != 'year' and key != 'image' %}
+                        <tr>
+                          <td>{{ value.cinema }}</td>
+                          <td>{{ value.price }}</td>
+                          <td>{{ value.viewing_method }}</td>
+                          <td>{{ value.quality }}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+        {% if forloop.last or film.film_name != movie_data.0.film_name %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul> -->
+    
   </div>
 </body>
 

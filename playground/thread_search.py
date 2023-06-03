@@ -147,7 +147,6 @@ def more_base_info(soup):
 
 
 def threading_search_test():
-    t0 = time.time()#тест времени
     link_name="мир юрского периода "
     urls = [
         'https://www.ivi.ru/search/?ivi_search='+link_name,
@@ -160,21 +159,9 @@ def threading_search_test():
         linksFilmsAllCinema = list(executor.map(parse_site, urls))# НАЧАЛО РАБОТЫ МНОГОПОТОЧНОСТИ
         print(type(linksFilmsAllCinema))
         linksFilmsAllCinema = json.dumps(linksFilmsAllCinema)
-    # linksFilmsAllCinema_str = json.loads(linksFilmsAllCinema)
-    # combined_dict = {}
-    # for dictionary in linksFilmsAllCinema_str:
-    #     combined_dict.update(dictionary)
-    # linksFilmsAllCinema = []
-    # linksFilmsAllCinema.append(combined_dict)
-    # linksFilmsAllCinema = json.dumps(linksFilmsAllCinema)
-    # combined_dict = json.dumps(combined_dict)
-    #вывод
-    # threading_get_json_keys(linksFilmsAllCinema)
     #вызываем парсер каждой страницы
     return threading_get_json_keys(linksFilmsAllCinema)
 
-    t1 = time.time()
-    print(t1-t0)#тест времени
 # threading_search_test()#тестовый запуск
 
 
@@ -182,16 +169,7 @@ def threading_search_test():
 
 
 
-
-
-
-
-
-
-
-
 def threading_search(film_search_name):
-    t0 = time.time()#тест времени
     # Удаляем пробелы в конце строки
     trimmed_text = film_search_name.rstrip()
 
@@ -208,7 +186,6 @@ def threading_search(film_search_name):
         'https://more.tv/upuaut/v4/web/suggest?q='+link_name,        
         # 'https://www.ivi.ru/search/?ivi_search='+'темн',        
     ]
-
     with ThreadPoolExecutor(max_workers=10) as executor:# max_workers - количество потоков
         linksFilmsAllCinema = list(executor.map(parse_site, urls))# НАЧАЛО РАБОТЫ МНОГОПОТОЧНОСТИ
         print(type(linksFilmsAllCinema))
@@ -216,7 +193,3 @@ def threading_search(film_search_name):
     #вызываем парсер каждой страницы
     return threading_get_json_keys(linksFilmsAllCinema)
         # linksFilmsAllCinema = json.loads(linksFilmsAllCinema) #переводит текст из текста json в обычный (НО! обычный будет с одинарными кавычками, которые json не примет)
-        # КОНЕЦ потока (все что под with ThreadPoolExecutor - это часть многопоточности)
-    
-    #вызываем парсер каждой страницы
-    return threading_get_json_keys(linksFilmsAllCinema)

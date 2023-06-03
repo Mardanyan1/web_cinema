@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .thread_search import threading_search
 from .forms import InputForm, Like_filmsForm
-from .models import TEST_Like_films, Films
+from .models import TEST_Like_films, Films, Like_films, Films_Cost
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -111,5 +111,9 @@ def search_movie(request):
         # Возвращаем пользователю страницу с результатами
         return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_list})
     
+    if request.method == 'POST':
+
+
+        return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_list})
     # Если запрос не является GET-запросом, отображаем пустую форму
     return render(request, 'playground/hello.html')

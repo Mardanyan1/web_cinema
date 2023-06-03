@@ -50,9 +50,8 @@ def get_IVI_data_keys(json_obj):
 
         #перебор всех выбранных ниже наддын по ссылке film_data_json_link
         parse_data_result = {
-            'cinema': 'ivi',
             'film_name': film_name,
-            'link': link, 
+            # 'link': link, 
             'image': image,
             'year': year
         }
@@ -66,6 +65,8 @@ def get_IVI_data_keys(json_obj):
                 quality = "HD"
                 print('Бесплатно ')
                 parse_data_result[int(i)] = {
+                    'cinema': 'ivi',
+                    'link': link, 
                     'viewing_method':downloadable,
                     'quality':quality,
                     'price':price
@@ -90,6 +91,8 @@ def get_IVI_data_keys(json_obj):
                 quality = 'HD'
                 print(price,quality, downloadable)
                 parse_data_result[int(i)] = {
+                    'link': link, 
+                    'cinema':'ivi',
                     'viewing_method':downloadable,
                     'quality':quality,
                     'price':price
@@ -106,6 +109,8 @@ def get_IVI_data_keys(json_obj):
             print(price,quality, downloadable)
 
             parse_data_result[int(i)] = {
+                'link': link, 
+                'cinema':'ivi',
                 'viewing_method':downloadable,
                 'quality':quality,
                 'price':price
@@ -150,13 +155,14 @@ def cinemas(json_obj):
                 quality = value['quality']
                 price = value['price']
                 parse_data_result = {
-                    'cinema': 'more',
+                    # 'cinema': 'more',
                     'film_name': film_name,
-                    'link': link, 
+                    # 'link': link, 
                     'image': image,
                     'year': year,
                     0:{
                         'cinema': 'more',
+                        'link': link, 
                         'viewing_method':viewing_method,
                         'quality':quality,
                         'price':price
@@ -215,6 +221,18 @@ def threading_get_json_keys(linksFilmsAllCinema):
             linksFilmsAllCinema = json.loads(linksFilmsAllCinema)
             linksFilmsAllCinema = linksFilmsAllCinema[0]
             final_list = final_list + linksFilmsAllCinema
-            print("-----------------------------------------")
-    print(final_list)
-    return final_list
+    print("-----------------------------------------")
+    new_data = []
+    for item in final_list:
+        film_name = item["film_name"]
+        found = False
+        for new_item in new_data:
+            if new_item["film_name"] == film_name:
+                new_item[len(new_item)] = item["0"]
+                found = True
+                break
+        if not found:
+            new_data.append(item)
+    print("------------------")
+    print(new_data)
+    return new_data

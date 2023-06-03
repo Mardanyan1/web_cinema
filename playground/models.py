@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class TEST_Like_films(models.Model):
@@ -37,4 +39,5 @@ class Films_Cost(models.Model):
 
 class Like_films(models.Model):
     id_filmRequest = models.ForeignKey(Films_Cost, on_delete=models.CASCADE)
-    id_user = models.ForeignKey('registration.Profile', on_delete=models.CASCADE)
+    # id_user = models.ForeignKey('registration.Profile', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
