@@ -25,6 +25,11 @@
             <li class="nav-item">
               <a class="nav-link {% if request.resolver_match.url_name == 'greetings' %}active{% endif %}" href="{% url 'greetings' %}">Приветствие</a>
             </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">Профиль</a>
+            </li>
+            {% endif %}
             
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Аккаунт</a>

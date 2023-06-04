@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <ul class="list-group">
+    <!-- <ul class="list-group">
       {% for film in films %}
       <form method="post">
         {% csrf_token %}
@@ -63,7 +63,61 @@
         </li>
       </form>
       {% endfor %}
+    </ul> -->
+    <ul class="list-group">
+      {% for film in films_data %}
+      <form method="post">
+        {% csrf_token %}
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="{{ film.image }}" alt="{{ film.film_name }}" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+              <h3 class="film_name">{{ film.film_name }}</h3>
+              <input type="hidden" name="film_name" value="{{ film.film_name }}">
+              <h2 class="year">{{ film.year }}</h2>
+              <input type="hidden" name="year" value="{{ film.year }}">
+    
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Ссылка</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Способ приобретения</th>
+                    <th scope="col">Качество</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for key, value in film.items %}
+                  {% if key != 'film_name' and key != 'image' and key != 'year' %}
+                  <tr>
+                    <td><a href="{{ value.link }}">{{ key }}</a></td>
+                    <input type="hidden" name="link" value="{{ value.link }}">
+    
+                    <td class="cost">{{ value.price }}</td>
+                    <input type="hidden" name="price" value="{{ value.price }}">
+    
+                    <td class="viewing_method">{{ value.viewing_method }}</td>
+                    <input type="hidden" name="viewing_method" value="{{ value.viewing_method }}">
+    
+                    <td class="quality">{{ value.quality }}</td>
+                    <input type="hidden" name="quality" value="{{ value.quality }}">
+    
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </li>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+      </form>
+      {% endfor %}
     </ul>
+    
+    
   </div>
 </body>
 

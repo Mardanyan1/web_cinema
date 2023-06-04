@@ -203,37 +203,6 @@ def search_movie(request):
 
 
 
-        # film_name = request.POST.get('film_name')
-        # print("---------------")
-        # print(film_name)
-
-        # link = request.POST.get('link')
-        # print("---------------")
-        # print(link)
-
-        # year = request.POST.get('year')
-        # print("---------------")
-        # print(year)
-
-        # price = request.POST.get('price')
-        # print("---------------")
-        # print(str(price))
-
-        # viewing_method = request.POST.get('viewing_method')
-        # print("---------------")
-        # print(viewing_method)
-
-        # quality = request.POST.get('quality')
-        # print("---------------")
-        # print(quality)
-
-        # film = Films.objects.get(film_name=film_name)
-        # print("---------------")
-        # print(film)
-        # film_id = film.id_film
-        # print("---------------")
-        # print(film_id)
-
         # existing_movie = Films_Cost.objects.filter(viewing_method=viewing_method,quality=quality,link=link)#.first()
         # if existing_movie:
         #     # Фильм уже существует, пропускаем его сохранение
@@ -263,4 +232,4 @@ def search_movie(request):
     # return render(request, 'playground/hello.html')
 
     # Если запрос не является GET-запросом, отображаем пустую форму
-    return render(request, 'registration/profile.html')
+    return render(request, 'playground/hello.html')
