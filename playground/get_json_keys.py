@@ -15,7 +15,7 @@ def get_IVI_data_keys(json_obj):
         year = json_obj[key]['year']
         image = json_obj[key]['image']
         film_name = json_obj[key]['film_name']
-        time.sleep(randint(5,7))
+        # time.sleep(randint(5,7))
         response = requests.get(link)
 
         #-----------------------------------------------Поиск json-файла------------------------------------------------
@@ -80,8 +80,24 @@ def get_IVI_data_keys(json_obj):
             #это условие убирает цену 0, так как она мне не нужна   
             if item["price"] == '0':
                 continue
+            
+            price1 = item["payment_options"][0]["user_price"]
+            price1 = int(round(float(price1)))
 
-            price = item['price']
+            price2 = item["price_ranges"]["discount_on_cheapest_price"]
+            if isinstance(price2, str):
+                price2 = int(round(float(price2)))
+            if price2 == None:
+                price2 = 0
+
+            if price1 > price2:
+                sale_check = price1
+            elif price1 == price2:
+                sale_check = price1
+            else:
+                sale_check = price2
+
+            price = str(sale_check)
             object_title = item['object_title']#название фильма
             quality = item['quality'] # качество
 
@@ -99,7 +115,6 @@ def get_IVI_data_keys(json_obj):
                 }
                 i=i+1
                 continue
-
             downloadable = item['downloadable']# Подписка, Покупка или Аренда
             if downloadable is True:
                 downloadable='Покупка'
@@ -122,18 +137,6 @@ def get_IVI_data_keys(json_obj):
         #-------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def cinemas(json_obj):
     all_films_data = []
     for key in json_obj.keys():
@@ -147,7 +150,6 @@ def cinemas(json_obj):
             for keys, value in json_obj.items():
                 link = keys
                 # Обращение к элементам внутреннего словаря
-                # for inner_key, inner_value in value.items():
                 year = value['year']
                 image = value['image']
                 film_name = value['film_name']
@@ -155,9 +157,7 @@ def cinemas(json_obj):
                 quality = value['quality']
                 price = value['price']
                 parse_data_result = {
-                    # 'cinema': 'more',
                     'film_name': film_name,
-                    # 'link': link, 
                     'image': image,
                     'year': year,
                     0:{
@@ -175,35 +175,6 @@ def cinemas(json_obj):
             return all_films_data
 
         # elif 'more' in url:
-
-
-
-# def get_MORE_data_keys(json_obj):
-#     for key, value in json_obj.items():
-#         response = requests.get(link)
-#         filename = str(uuid.uuid4()) + ".html"
-#         with open(filename, 'w', encoding='utf-8') as f:
-#             f.write(response.text)
-
-#         #передаем html файл в переменную в виде текста
-#         with open(filename, 'r', encoding='utf-8') as f:
-#             html_parsing = f.read()
-
-#         parse_data_result = {
-#             'film_name': film_name,
-#             'link': link
-#         }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -225,9 +196,12 @@ def threading_get_json_keys(linksFilmsAllCinema):
     new_data = []
     for item in final_list:
         film_name = item["film_name"]
+        film_name = film_name.lower()
         found = False
         for new_item in new_data:
-            if new_item["film_name"] == film_name:
+            new_film = new_item["film_name"]
+            new_film = new_film.lower()
+            if new_film == film_name:
                 new_item[len(new_item)] = item["0"]
                 found = True
                 break
