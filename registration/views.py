@@ -26,27 +26,23 @@ def logout_view(request):
 
 @login_required
 def profile(request):
-    # current_user = request.user
-    # like_films = Like_films.objects.filter(user=current_user)
-    # like_films_ids = like_films.values_list('id_filmRequest', flat=True)
+    if request.method == 'POST':
+        link = request.POST.get('link')
 
-    # films_cost = Films_Cost.objects.filter(id_filmRequest__in=like_films_ids)
-    # films_cost_ids = films_cost.values_list('id_film', flat=True)
-    # print("-------------")
-    # print(films_cost)
+        # Находим объект Films_Cost по ссылке
+        film_cost = Films_Cost.objects.filter(link=link).first()
+        film_cost_id = film_cost.id_film
 
-    # films = Films.objects.all()
-    # films = Films_Cost.objects.filter(id_film__in=films_cost)
-    # print("-------------")
-    # print(films)
+        # Получаем текущего зарегистрированного пользователя
+        current_user = request.user
 
+        # Находим все записи в Films_Cost с таким же id_film, как у найденного film_cost
+        related_films = Films_Cost.objects.filter(id_film=film_cost_id)
 
-
-
-
-
-
-
+        # Удаляем все связанные фильмы из таблицы Like_films для текущего пользователя
+        for film in related_films:
+            like_film = Like_films.objects.filter(id_filmRequest=film, user=current_user)
+            like_film.delete()
 
     current_user = request.user
     like_films = Like_films.objects.filter(user=current_user)
@@ -86,7 +82,6 @@ def profile(request):
     json_data = json.loads(json_data)
     print("-------------")
     print(json_data)
-
+    
     return render(request, 'registration/profile.html', {'films_data': json_data})
     # Рендерим шаблон с переданным контекстом
-    return render(request, 'registration/profile.html', context)

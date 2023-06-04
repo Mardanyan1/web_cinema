@@ -201,35 +201,10 @@ def search_movie(request):
             like_film = Like_films(id_filmRequest=film, user=current_user)
             like_film.save()
 
-
-
-        # existing_movie = Films_Cost.objects.filter(viewing_method=viewing_method,quality=quality,link=link)#.first()
-        # if existing_movie:
-        #     # Фильм уже существует, пропускаем его сохранение
-        #     print("ТАКОЙ ЕЕЕЕЕЕСТЬ")
-        # film_cost = Films_Cost(viewing_method=viewing_method,quality=quality,cost=price,link=link,id_film=film)
-        # film_cost.save()
-
-
-
-
-
-
-
-        # cost_films = cost_films.id_film()
-        # print("---------------")
-        # print(cost_films)
-        
-
-        # form = FilmsCostForm(request.POST, instance=film_cost)
-        # if form.is_valid():
-        #     form.save()
-        #     return redirect('playground/main_page.html')  # Редирект на страницу успешного сохранения
     else:
         print("сразу пропуск")
         print(form.errors)
         form = FilmsCostForm()
-    # return render(request, 'playground/hello.html')
 
     # Если запрос не является GET-запросом, отображаем пустую форму
     return render(request, 'playground/hello.html')

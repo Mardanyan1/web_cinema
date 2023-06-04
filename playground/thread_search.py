@@ -9,7 +9,7 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from fake_useragent import UserAgent
 
-from get_json_keys import threading_get_json_keys
+from .get_json_keys import threading_get_json_keys
 
 
 def parse_site(url):
@@ -164,7 +164,7 @@ def threading_search_test():
     #вызываем парсер каждой страницы
     return threading_get_json_keys(linksFilmsAllCinema)
 
-threading_search_test()#тестовый запуск
+# threading_search_test()#тестовый запуск
 
 
 

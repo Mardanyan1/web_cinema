@@ -60,10 +60,16 @@
             </div>
           </div>
         </li>
+        {% if user.is_authenticated %}
         <a href="{% url 'about us' id_filmRequest=loop_counter %}" class="card-link btn btn-primary">Редактировать</a>
         <button type="submit" class="btn btn-success">Сохранить</button>
+        {% endif %}
+
       </form>
       {% endwith %}
+      <br>
+      <br>
+      <br>
       {% endfor %}
     </ul>
 
