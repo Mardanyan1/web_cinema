@@ -31,13 +31,17 @@ class Films(models.Model):
 class Films_Cost(models.Model):
     viewing_method = models.CharField(max_length=20, null=True)
     quality = models.CharField(max_length=15, null=True)
-    cost = models.DecimalField(max_digits=19, decimal_places=4, null=True)
-    id_filmRequest = models.IntegerField(primary_key=True)
+    cost = models.CharField(max_length=19, null=True)
+    link = models.URLField(null=True)
+    id_filmRequest = models.AutoField(primary_key=True)
     id_film = models.ForeignKey(Films, null=True, on_delete=models.SET_NULL)
-    # id_cinema = models.ForeignKey(Cinemas, null=True, on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        return self.link
 
 
 class Like_films(models.Model):
+    id_like_film = models.AutoField(primary_key=True,)
     id_filmRequest = models.ForeignKey(Films_Cost, on_delete=models.CASCADE)
-    # id_user = models.ForeignKey('registration.Profile', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+

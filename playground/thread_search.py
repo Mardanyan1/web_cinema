@@ -47,7 +47,9 @@ def parse_site(url):
         links_elems = soup.find_all('a', class_='vj8iwpkR')  
     elif 'more' in url:
         images, years, links, film_name, viewing_methods, prices, qualitys = more_base_info(soup)
-        
+    elif 'wink.ru' in url:
+        film_name_elem = soup.find_all('span', class_='RQ6wn_Q0')
+        links_elems = soup.find_all('a', class_='vj8iwpkR')  
 
     # Генерируем словарь из списка кортежей
     film_data1 = {}

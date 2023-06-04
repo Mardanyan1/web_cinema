@@ -25,9 +25,7 @@
             <li class="nav-item">
               <a class="nav-link {% if request.resolver_match.url_name == 'greetings' %}active{% endif %}" href="{% url 'greetings' %}">Приветствие</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match.url_name == 'about us' %}active{% endif %}" href="{% url 'about us' %}">О нас</a>
-            </li>
+            
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Аккаунт</a>
               <ul class="dropdown-menu">

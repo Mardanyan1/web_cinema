@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from playground.models import Films, Films_Cost
 from .forms import UserRegisterForm
 from django.contrib.auth import logout
 
@@ -23,4 +25,15 @@ def logout_view(request):
 
 @login_required
 def profile(request):
-    return render(request, 'registration/profile')
+    # Получаем данные из моделей Films и Films_Cost
+    films = Films.objects.all()
+    films_cost = Films_Cost.objects.all()
+
+    # Передаем данные в контекст шаблона
+    context = {
+        'films': films,
+        'films_cost': films_cost,
+    }
+
+    # Рендерим шаблон с переданным контекстом
+    return render(request, 'registration/profile.html', context)

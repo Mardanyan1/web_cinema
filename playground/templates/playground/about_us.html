@@ -1,8 +1,8 @@
 {% extends 'playground/base.html' %}
 
-{% block title %}
+<!-- {% block title %}
 {{ title }}
-{% endblock %}
+{% endblock %} -->
 
 {% block content %}
 <body>
@@ -19,5 +19,16 @@
         Einen Augenblick durchfuhr ihn schmerzliche Scham über seine eigene Schwerfälligkeit. 
         Der Schweiß brach in kleinen Tröpfchen auf seiner Stirn aus, er blieb stehen und wischte sich mit dem Taschentuch über das sonnenverbrannte Gesicht.
     </div>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            Are you sure you want to delete "{{ object }}"?
+        </p>
+        {{form.cost}}<br>
+        {{form.viewing_method}}<br>
+        {{form.quality}}<br>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'greetings' %}">Cancel</a>
+    </form>
     </body>
 {% endblock %}
