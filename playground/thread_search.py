@@ -149,7 +149,7 @@ def more_base_info(soup):
 
 
 def threading_search_test():
-    link_name="париж я люблю тебя "
+    link_name="шрек "
     urls = [
         'https://www.ivi.ru/search/?ivi_search='+link_name,
         # 'https://okko.tv/search/'+link_name,        

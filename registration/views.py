@@ -66,7 +66,14 @@ def profile(request):
 
         cost_data = {}
         for i, film_cost in enumerate(film_costs):
+            if 'ivi' in film_cost.link:
+                cinema = 'ivi'
+            elif 'more' in film_cost.link:
+                cinema = 'more'
+            else:
+                cinema = 'other'
             cost_data[str(i)] = {
+                'cinema':cinema,
                 'link': film_cost.link,
                 'viewing_method': film_cost.viewing_method,
                 'quality': film_cost.quality,

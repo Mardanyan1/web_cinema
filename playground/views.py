@@ -156,12 +156,15 @@ def search_movie(request):
                     film = Films.objects.get(film_name=film_name)
                     film_id = film.id_film
 
-                    existing_movie_cost = Films_Cost.objects.filter(viewing_method=viewing_method,quality=quality,link=link) #.first()
+                    existing_movie_cost = Films_Cost.objects.filter(viewing_method=viewing_method,quality=quality,link=link).first()
                     if existing_movie_cost:
+                        #обновляем цену фильма   UPDATE
+                        existing_movie_cost.cost = price
+                        existing_movie_cost.save()
                         # Фильм уже существует, пропускаем его сохранение
-                        continue
-                    film_cost = Films_Cost(viewing_method=viewing_method,quality=quality,cost=price,link=link,id_film=film)
-                    film_cost.save()
+                    else:
+                        film_cost = Films_Cost(viewing_method=viewing_method,quality=quality,cost=price,link=link,id_film=film)
+                        film_cost.save()
 
         # Возвращаем пользователю страницу с результатами
         return render(request, 'playground/movie_results.html', {'title':'Результаты поиска','movie_data': movie_list})

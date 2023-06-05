@@ -81,23 +81,18 @@ def get_IVI_data_keys(json_obj):
             if item["price"] == '0':
                 continue
             
-            price1 = item["payment_options"][0]["user_price"]
-            price1 = int(round(float(price1)))
-
-            price2 = item["price_ranges"]["discount_on_cheapest_price"]
-            if isinstance(price2, str):
-                price2 = int(round(float(price2)))
-            if price2 == None:
-                price2 = 0
-
-            if price1 > price2:
-                sale_check = price1
-            elif price1 == price2:
-                sale_check = price1
-            else:
-                sale_check = price2
-
-            price = str(sale_check)
+            #проверка на наличие скидок
+            price = item["price"]
+            findSale = item["payment_options"]
+            for pr in findSale:
+                salePrice = pr["user_price"]
+                if salePrice == "1":
+                    continue
+                if int(price) == int(salePrice):
+                    continue
+                price = salePrice
+                break
+    
             object_title = item['object_title']#название фильма
             quality = item['quality'] # качество
 

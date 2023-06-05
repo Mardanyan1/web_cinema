@@ -92,7 +92,7 @@
                   {% for key, value in film.items %}
                   {% if key != 'film_name' and key != 'image' and key != 'year' %}
                   <tr>
-                    <td><a href="{{ value.link }}">{{ key }}</a></td>
+                    <td><a href="{{ value.link }}">{{ value.cinema }}</a></td>
                     <input type="hidden" name="link" value="{{ value.link }}">
     
                     <td class="cost">{{ value.price }}</td>
