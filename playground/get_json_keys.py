@@ -45,7 +45,7 @@ def get_IVI_data_keys(json_obj):
         #проверка на бесплатность проекта
         element = soup.find('div', {'class': 'nbl-textBadge_style_resh'})
 
-        film_data_json_link = data['pages']['watchPage']['purchaseOptions']['contentPurchaseOptions']['purchase_options']
+        film_data_json_link = data['pages']['watch']['purchaseOptions']['contentPurchaseOptions']['purchase_options']
         print("-----------------------------------------")
 
         #перебор всех выбранных ниже наддын по ссылке film_data_json_link
@@ -89,6 +89,8 @@ def get_IVI_data_keys(json_obj):
                 if salePrice == "1":
                     continue
                 if int(price) == int(salePrice):
+                    continue
+                if int(price) < int(salePrice):
                     continue
                 price = salePrice
                 break
@@ -178,7 +180,7 @@ def threading_get_json_keys(linksFilmsAllCinema):
     final_list = []
     #начинаем потоковый парсинг каждой страницы
     for json_obj in json_list:
-        with ThreadPoolExecutor(max_workers=10) as executor:#max_workers - количество потоков
+        with ThreadPoolExecutor(max_workers=3) as executor:#max_workers - количество потоков
             linksFilmsAllCinema = executor.map(cinemas, [json_obj])
             linksFilmsAllCinema = list(linksFilmsAllCinema)
             if json_obj == {}:

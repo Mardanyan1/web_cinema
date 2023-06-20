@@ -42,7 +42,7 @@
                 {% endif %}
                 {% if request.user.is_superuser %}
                   <li><a class="dropdown-item" href="{% url 'admin:index' %}">Администрация</a></li>
-                  <li><a class="dropdown-item" href="{% url 'create' %}">Обновление данных</a></li>
+                  <!-- <li><a class="dropdown-item" href="{% url 'create' %}">Обновление данных</a></li> -->
                 {% endif %}
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
               </ul>

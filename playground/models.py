@@ -21,7 +21,6 @@ class Films(models.Model):
     id_film = models.AutoField(primary_key=True)
     film_name = models.CharField(max_length=70, null=True)
     year = models.CharField(max_length=20, null=True)
-    # description = models.TextField(null=True)
     photo = models.URLField(null=True)
 
     def __str__(self):
@@ -44,4 +43,3 @@ class Like_films(models.Model):
     id_like_film = models.AutoField(primary_key=True,)
     id_filmRequest = models.ForeignKey(Films_Cost, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-

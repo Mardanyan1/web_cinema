@@ -8,62 +8,13 @@
       <div class="media">
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         <div class="media-body">
+          <h1>Сохраненные фильмы</h1>
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
         </div>
       </div>
     </div>
-    <!-- <ul class="list-group">
-      {% for film in films %}
-      <form method="post">
-        {% csrf_token %}
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-4">
-              <img src="{{ film.photo }}" alt="{{ film.film_name }}" class="img-fluid">
-            </div>
-            <div class="col-md-8">
-              <h3 class="film_name">{{ film.film_name }}</h3>
-              <input type="hidden" name="film_name" value="{{ film.film_name }}">
-              <h2 class="year">{{ film.year }}</h2>
-              <input type="hidden" name="year" value="{{ film.year }}">
-
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Ссылка</th>
-                    <th scope="col">Цена</th>
-                    <th scope="col">Способ приобретения</th>
-                    <th scope="col">Качество</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for film_cost in films_cost %}
-                  {% if film_cost.id_film_id == film.id_film %}
-                  <tr>
-                    <td><a href="{{ film_cost.link }}">{{ film_cost.link }}</a></td>
-                    <input type="hidden" name="link" value="{{ film_cost.link }}">
-
-                    <td class="cost">{{ film_cost.cost }}</td>
-                    <input type="hidden" name="price" value="{{ film_cost.cost }}">
-
-                    <td class="viewing_method">{{ film_cost.viewing_method }}</td>
-                    <input type="hidden" name="viewing_method" value="{{ film_cost.viewing_method }}">
-
-                    <td class="quality">{{ film_cost.quality }}</td>
-                    <input type="hidden" name="quality" value="{{ film_cost.quality }}">
-
-                  </tr>
-                  {% endif %}
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </li>
-      </form>
-      {% endfor %}
-    </ul> -->
+    
     <ul class="list-group">
       {% for film in films_data %}
       <form method="post">

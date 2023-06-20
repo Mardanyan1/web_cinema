@@ -9,7 +9,7 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from fake_useragent import UserAgent
 
-from .get_json_keys import threading_get_json_keys
+from get_json_keys import threading_get_json_keys
 
 
 def parse_site(url):
@@ -164,7 +164,7 @@ def threading_search_test():
     #вызываем парсер каждой страницы
     return threading_get_json_keys(linksFilmsAllCinema)
 
-# threading_search_test()#тестовый запуск
+threading_search_test()#тестовый запуск
 
 
 
@@ -186,7 +186,6 @@ def threading_search(film_search_name):
         'https://www.ivi.ru/search/?ivi_search='+link_name,
         # 'https://okko.tv/search/'+link_name,        
         'https://more.tv/upuaut/v4/web/suggest?q='+link_name,        
-        # 'https://www.ivi.ru/search/?ivi_search='+'темн',        
     ]
     with ThreadPoolExecutor(max_workers=10) as executor:# max_workers - количество потоков
         linksFilmsAllCinema = list(executor.map(parse_site, urls))# НАЧАЛО РАБОТЫ МНОГОПОТОЧНОСТИ
